@@ -3,7 +3,7 @@
 /**
  *
  * @package    write
- * @version    Release: 1.0.0
+ * @version    Release: 1.0.1
  * @license    GPL3
  * @author     Ali YILMAZ <aliyilmaz.work@gmail.com>
  * @category   File writer.
@@ -30,16 +30,20 @@ class write extends Mind
         }
 
         if(isset($content)){
-            if(!is_dir(self::aliyilmaz('info')->info($filePath, 'dirname'))){
-                mkdir(self::aliyilmaz('info')->info($filePath, 'dirname'), 0777, true);
+            $dirPath = $this->info($filePath, 'dirname');
+            if(!empty($dirPath)){
+                if(!is_dir($dirPath)){
+                    mkdir($dirPath, 0777, true);
+                }
             }
             if(!file_exists($filePath)){ touch($filePath); }
             if(file_exists($filePath)){ 
                 $fileName        = fopen($filePath, "a+");
                 fwrite($fileName, $content."\r\n");
                 fclose($fileName);
-                return true;
-            } 
+            }
+
+            return true;
         }
 
         return false;
